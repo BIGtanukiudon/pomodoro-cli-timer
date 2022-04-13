@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const WORK_ICON_PATH = "./assets/work.png";
 const REST_ICON_PATH = "./assets/rest.png";
+const NOTICE_SECONDS = 30;
 
 const convertMinutesNumber = (minutes: any): number => {
   const num = Number(minutes);
@@ -78,7 +79,10 @@ const main = () => {
         } else {
           notify("休憩開始", iconPath);
         }
-      } else if (workMinutes === sumMinutes + 1 && sumSeconds === 30) {
+      } else if (
+        workMinutes === sumMinutes + 1 &&
+        sumSeconds === NOTICE_SECONDS
+      ) {
         notify("作業 残り30秒", WORK_ICON_PATH);
       }
     } else {
@@ -90,7 +94,10 @@ const main = () => {
         iconPath = WORK_ICON_PATH;
 
         notify("作業開始", iconPath);
-      } else if (restMinutes === sumMinutes + 1 && sumMinutes === 30) {
+      } else if (
+        restMinutes === sumMinutes + 1 &&
+        sumSeconds === NOTICE_SECONDS
+      ) {
         notify("休憩 残り30秒", REST_ICON_PATH);
       }
     }
