@@ -53,11 +53,7 @@ const main = () => {
   let preMessageColor = "\x1b[31m";
   let iconPath = WORK_ICON_PATH;
 
-  setInterval(() => {
-    if (!isWork && termCount > term) {
-      exit(0);
-    }
-
+  const intervalId = setInterval(() => {
     if (sumSeconds === 60) {
       sumSeconds = 0;
       sumMinutes++;
@@ -72,11 +68,7 @@ const main = () => {
         termCount++;
         iconPath = REST_ICON_PATH;
 
-        if (termCount > term) {
-          // 先に通知
-          notify("ポモドーロ終了", REST_ICON_PATH);
-          stdoutMessage("ポモドーロ終了");
-        } else {
+        if (termCount <= term) {
           notify("休憩開始", iconPath);
         }
       } else if (
@@ -102,14 +94,20 @@ const main = () => {
       }
     }
 
-    const message =
-      sumMinutes !== 0
-        ? `${preMessageColor}${preMessage}\u001b[0m ${sumMinutes}分${sumSeconds}秒`
-        : `${preMessageColor}${preMessage}\u001b[0m ${sumSeconds}秒`;
+    if (!isWork && termCount > term) {
+      notify("ポモドーロ終了", REST_ICON_PATH);
+      stdoutMessage("ポモドーロ終了");
+      clearInterval(intervalId);
+    } else {
+      const message =
+        sumMinutes !== 0
+          ? `${preMessageColor}${preMessage}\u001b[0m ${sumMinutes}分${sumSeconds}秒`
+          : `${preMessageColor}${preMessage}\u001b[0m ${sumSeconds}秒`;
 
-    stdoutMessage(message);
+      stdoutMessage(message);
 
-    sumSeconds++;
+      sumSeconds++;
+    }
   }, 1000);
 };
 
