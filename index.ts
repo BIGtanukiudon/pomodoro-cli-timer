@@ -22,6 +22,12 @@ const notify = (message: string, iconPath: string) => {
   });
 };
 
+const stdoutMessage = (message: string) => {
+  readline.clearLine(process.stdout, 0);
+  readline.cursorTo(process.stdout, 0);
+  process.stdout.write(message);
+};
+
 const main = () => {
   const workMinutes =
     convertMinutesNumber(process.env.WORK_MINUTES) > 0
@@ -68,7 +74,7 @@ const main = () => {
         if (termCount > term) {
           // 先に通知
           notify("ポモドーロ終了", REST_ICON_PATH);
-          process.stdout.write("ポモドーロ終了");
+          stdoutMessage("ポモドーロ終了");
         } else {
           notify("休憩開始", iconPath);
         }
@@ -94,8 +100,7 @@ const main = () => {
         ? `${preMessageColor}${preMessage}\u001b[0m ${sumMinutes}分${sumSeconds}秒`
         : `${preMessageColor}${preMessage}\u001b[0m ${sumSeconds}秒`;
 
-    readline.cursorTo(process.stdout, 0);
-    process.stdout.write(message);
+    stdoutMessage(message);
 
     sumSeconds++;
   }, 1000);
