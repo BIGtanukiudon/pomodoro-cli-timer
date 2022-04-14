@@ -48,3 +48,7 @@ npm start
 | REST_MINUTES          | 休憩分数     | 5            |
 | TERM                  | ターム       | 3            |
 | IS_NOTIFICATION_SOUND | 通知音の有無 | 0(False)     |
+
+## License
+
+The source code is licensed MIT.
